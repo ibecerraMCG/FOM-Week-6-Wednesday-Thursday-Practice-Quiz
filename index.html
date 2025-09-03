@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 6 Wednesday & Thursday Practice Quiz</title>
+    <style>
+        /* --- Color Variables --- */
+        :root {
+            /* Default: Dark Theme */
+            --bg-color: #2d343e; /* Dark background */
+            --container-bg: #3c424f; /* Slightly lighter container */
+            --text-color: #e8e6e3; /* Light text */
+            --question-text-color: #8ab4f8; /* Light blue for questions */
+            --lo-text-color: #b0c4de; /* Lighter blue for learning objective */
+            --border-color: #555; /* Darker borders */
+            --separator-color: #4a4f5a;
+            --label-bg: #454c5a;
+            --label-border: #6c757d;
+            --label-hover-bg: #525966;
+            --label-hover-border: #7a828a;
+            --button-bg: #8ab4f8;
+            --button-text: #202124;
+            --button-hover-bg: #a3c5f9;
+            --button-disabled-bg: #5f6368;
+            --feedback-correct-bg: #344e41;
+            --feedback-correct-text: #c7f9cc;
+            --feedback-correct-border: #52b788;
+            --feedback-incorrect-bg: #5e2129;
+            --feedback-incorrect-text: #f8d7da;
+            --feedback-incorrect-border: #a4133c;
+            --feedback-rationale-text: #adb5bd; /* Lighter gray for rationale */
+            --feedback-source-text: #c7d3e0;
+            --feedback-separator: #6c757d;
+            --radio-accent: #8ab4f8;
+        }
+
+        .light-theme {
+            --bg-color: #eef2f7;
+            --container-bg: #ffffff;
+            --text-color: #343a40;
+            --question-text-color: #0056b3;
+            --lo-text-color: #5a6e8a;
+            --border-color: #dee2e6;
+            --separator-color: #e9ecef;
+            --label-bg: #f8f9fa;
+            --label-border: #ced4da;
+            --label-hover-bg: #e2e6ea;
+            --label-hover-border: #adb5bd;
+            --button-bg: #007bff;
+            --button-text: white;
+            --button-hover-bg: #0056b3;
+            --button-disabled-bg: #6c757d;
+            --feedback-correct-bg: #d1e7dd;
+            --feedback-correct-text: #0f5132;
+            --feedback-correct-border: #badbcc;
+            --feedback-incorrect-bg: #f8d7da;
+            --feedback-incorrect-text: #842029;
+            --feedback-incorrect-border: #f5c2c7;
+            --feedback-rationale-text: #495057;
+            --feedback-source-text: #343a40;
+            --feedback-separator: #ccc;
+            --radio-accent: #007bff;
+        }
+
+        /* --- General Styles --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.7;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 40px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #theme-toggle-button {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            padding: 8px 12px;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: 1px solid var(--label-border);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            z-index: 1000;
+             transition: background-color 0.3s, color 0.3s;
+        }
+         #theme-toggle-button:hover {
+             opacity: 0.8;
+         }
+
+
+        #quiz-container {
+            max-width: 900px;
+            margin: 80px auto 30px auto;
+            background: var(--container-bg);
+            padding: 25px 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .question-block {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--separator-color);
+            transition: border-color 0.3s;
+        }
+
+        .question-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 5px;
+        }
+        
+        .learning-objective {
+            font-size: 0.85em;
+            font-style: italic;
+            color: var(--lo-text-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--separator-color);
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 18px;
+            color: var(--question-text-color);
+            transition: color 0.3s;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--label-border);
+            background-color: var(--label-bg);
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+
+        .options label:hover {
+            background-color: var(--label-hover-bg);
+            border-color: var(--label-hover-border);
+        }
+
+        .options input[type="radio"]:checked+span {
+             font-weight: bold;
+             color: var(--question-text-color);
+        }
+        .options input[type="radio"] {
+            margin-right: 12px;
+            accent-color: var(--radio-accent);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .check-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+        }
+
+        .check-button:hover {
+            opacity: 0.85;
+        }
+
+         .check-button:disabled {
+             background-color: var(--button-disabled-bg);
+             cursor: not-allowed;
+             opacity: 0.7;
+         }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            display: none;
+            border: 1px solid transparent;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .feedback.correct {
+            background-color: var(--feedback-correct-bg);
+            color: var(--feedback-correct-text);
+            border-color: var(--feedback-correct-border);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: var(--feedback-incorrect-bg);
+            color: var(--feedback-incorrect-text);
+            border-color: var(--feedback-incorrect-border);
+            display: block;
+        }
+
+        .feedback-status {
+             font-weight: bold;
+             font-size: 1.1em;
+             display: block;
+             margin-bottom: 8px;
+        }
+
+        .feedback-rationale {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--feedback-separator);
+            font-size: 0.9em;
+            color: var(--feedback-rationale-text);
+            transition: color 0.3s, border-color 0.3s;
+        }
+        
+        .feedback-source {
+            margin-top: 10px;
+            font-size: 0.85em;
+            font-style: italic;
+            color: var(--feedback-source-text);
+            background-color: rgba(0,0,0,0.1);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--question-text-color);
+            margin-top: 30px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+    </style>
+</head>
+<body>
+
+    <button id="theme-toggle-button">Toggle Theme</button>
+    <h1>Week 6 Wednesday & Thursday Practice Quiz</h1>
+
+    <div id="quiz-container">
+        <!-- Questions will be loaded here by JavaScript -->
+    </div>
+
+    <script>
+        const quizData = [
+    {
+        learningObjective: "LO 1.1 (Overview of the Adaptive Immune System): Identify the origin and locations for development for B cells and T cells. (USMLE 1.A., 1.B.8., 1.B.9.)",
+        question: "A researcher is studying the earliest stages of lymphocyte differentiation. To isolate the common hematopoietic stem cells that give rise to both B and T lymphocytes, tissue samples should be obtained from which location in a healthy adult?",
+        options: { 
+            A: "Thymus", 
+            B: "Spleen", 
+            C: "Bone marrow", 
+            D: "Lymph node" 
+        },
+        correctAnswer: "C",
+        rationale: "Both B cells and T cells, the principal cells of the adaptive immune system, originate from pluripotent hematopoietic stem cells. In adults, the primary site of hematopoiesis, and therefore the origin of these stem cells, is the bone marrow.",
+        source: "'B cells and T cells arise from stem cells in the bone marrow' (Overview of the Adaptive Immune System, Slide 3)"
+    },
+    {
+        learningObjective: "LO 1.1 (Overview of the Adaptive Immune System): Identify the origin and locations for development for B cells and T cells. (USMLE 1.A., 1.B.8., 1.B.9.)",
+        question: "A 6-month-old infant presents with recurrent bacterial infections and is found to have an absence of B cells in the peripheral blood. T cell numbers and function are normal. This specific defect in humoral immunity is most likely due to a problem in the developmental microenvironment of which primary lymphoid organ?",
+        options: { 
+            A: "Thymus", 
+            B: "Bone marrow", 
+            C: "Spleen", 
+            D: "Peyer's patch" 
+        },
+        correctAnswer: "B",
+        rationale: "In humans, B lymphocytes undergo their entire developmental process, from stem cell to immature B cell, within the bone marrow. A defect in this environment would specifically impact B cell maturation, while leaving T cell development (which occurs in the thymus) intact.",
+        source: "'In humans, B cells start and finish their development in the bone marrow' (Overview of the Adaptive Immune System, Slide 3)"
+    },
+    {
+        learningObjective: "LO 1.1 (Overview of the Adaptive Immune System): Identify the origin and locations for development for B cells and T cells. (USMLE 1.A., 1.B.8., 1.B.9.)",
+        question: "A newborn infant is diagnosed with complete DiGeorge syndrome, characterized by thymic aplasia. While the precursors for T cells originate normally, they fail to mature. This patient's profound immunodeficiency is a direct result of the absence of the specific organ where T cells complete their development. Which organ is absent?",
+        options: { 
+            A: "Spleen", 
+            B: "Bone marrow", 
+            C: "Bursa of Fabricius", 
+            D: "Thymus" 
+        },
+        correctAnswer: "D",
+        rationale: "T cell precursors originate in the bone marrow but must migrate to the thymus to undergo maturation and selection. The thymus provides the unique environment necessary for this process. In its absence, T cell development is halted, leading to a severe T cell immunodeficiency.",
+        source: "'T cells finish their development in the thymus, hence their name' (Overview of the Adaptive Immune System, Slide 3)"
+    },
+    {
+        learningObjective: "LO 1.2 (Overview of the Adaptive Immune System): Understand B and T cell development and how they make their receptors, giving examples of gene variants that affect B cell and T cell development. (USMLE 1.A., 1.B.8., 1.B.9., 2.A.2.)",
+        question: "A 9-month-old boy presents with recurrent otitis media and pneumonia. Flow cytometry shows normal numbers of T cells but an absence of B cells in the peripheral blood. Genetic analysis reveals a mutation in the BTK gene, which encodes a tyrosine kinase essential for signal transduction. This mutation interrupts B cell development at which critical stage?",
+        options: { 
+            A: "Stem cell to pro-B cell transition", 
+            B: "Checkpoint signaling after heavy chain rearrangement", 
+            C: "Negative selection of self-reactive B cells", 
+            D: "Mature B cell to plasma cell differentiation" 
+        },
+        correctAnswer: "B",
+        rationale: "Bruton tyrosine kinase (BTK) is a critical signaling molecule that functions at a developmental checkpoint for B cells, specifically after the successful rearrangement of the immunoglobulin heavy chain. A non-functional BTK prevents the developing B cell from receiving the necessary survival and proliferation signals, leading to developmental arrest at the pre-B cell stage. This results in X-linked agammaglobulinemia (XLA).",
+        source: "'X-linked agammaglobulinemia type 1 (XLA1) occurs when an important signaling molecule, Bruton tyrosine kinase (BTK), in the checkpoint process is non-functional' (Overview of the Adaptive Immune System, Slide 13)"
+    },
+    {
+        learningObjective: "LO 1.2 (Overview of the Adaptive Immune System): Understand B and T cell development and how they make their receptors, giving examples of gene variants that affect B cell and T cell development. (USMLE 1.A., 1.B.8., 1.B.9., 2.A.2.)",
+        question: "A newborn screening test reveals an abnormally low count of T-cell receptor excision circles (TRECs). This finding is highly suggestive of a profound defect in the development of T cells. This defect is most likely due to an impairment in which fundamental molecular process?",
+        options: { 
+            A: "Class switching of immunoglobulin heavy chains", 
+            B: "Generation of antibody diversity by somatic hypermutation", 
+            C: "Gene rearrangement to form the T cell receptor", 
+            D: "Expression of MHC class II molecules on thymic epithelium" 
+        },
+        correctAnswer: "C",
+        rationale: "T-cell receptor excision circles (TRECs) are circular DNA fragments that are excised and discarded during the process of V(D)J recombination, which assembles the T cell receptor genes. A low TREC count indicates that this gene rearrangement process is not occurring normally, leading to a failure of T cell production. This is the basis for using TREC analysis to screen for Severe Combined Immunodeficiency (SCID).",
+        source: "'A low TREC count indicates some problem with T cell development, with one serious cause being severe combined immunodeficiency (SCID)' (B Cell and T Cell Receptors, and their Antigens, Slide 30)"
+    },
+    {
+        learningObjective: "LO 1.2 (Overview of the Adaptive Immune System): Understand B and T cell development and how they make their receptors, giving examples of gene variants that affect B cell and T cell development. (USMLE 1.A., 1.B.8., 1.B.9., 2.A.2.)",
+        question: "A patient with a form of severe combined immunodeficiency (SCID) is found to have a complete absence of both B and T cells, but normal NK cell numbers. A genetic defect in the RAG-1 or RAG-2 enzymes is suspected. The function of these enzymes is essential for which of the following processes?",
+        options: { 
+            A: "Nucleotide metabolism", 
+            B: "Cytokine signaling via the JAK-STAT pathway", 
+            C: "Actin polymerization in the cytoskeleton", 
+            D: "V(D)J recombination of lymphocyte receptor genes" 
+        },
+        correctAnswer: "D",
+        rationale: "The RAG-1 and RAG-2 proteins form a complex that is the critical enzyme for initiating V(D)J recombination, the process of cutting and pasting gene segments to create functional B cell and T cell receptors. A complete deficiency of RAG activity prevents the development of both B and T cells, resulting in SCID. NK cells do not undergo this process and are therefore unaffected.",
+        source: "'The process is overseen by the RAG-1 and RAG-2 complexes... A gene variant in either of these can cause loss of function, causing one form of severe combined immunodeficiency (SCID)' (B Cell and T Cell Receptors, and their Antigens, Slides 28 & 31)"
+    },
+    {
+        learningObjective: "LO 5.1 (B Cell & T Cell Receptors): Describe the overall structure of B cell receptors (antibody) and T cell receptors and define immunoglobulin class and subclass. (USMLE 1.B.9.)",
+        question: "An antibody molecule is composed of two identical heavy chains and two identical light chains. The class of the antibody (e.g., IgG, IgM, IgA) is determined by the structure of which component?",
+        options: { 
+            A: "The variable region of the light chain (VL)", 
+            B: "The variable region of the heavy chain (VH)", 
+            C: "The constant region of the light chain (CL)", 
+            D: "The constant region of the heavy chain (CH)" 
+        },
+        correctAnswer: "D",
+        rationale: "The class, or isotype, of an antibody is defined by the amino acid sequence of the constant region of its heavy chain. There are five main types of heavy chains (mu, delta, gamma, epsilon, alpha) which correspond to the five main antibody classes (IgM, IgD, IgG, IgE, IgA).",
+        source: "'Antibody class (or subclass) is determined by the nature of the heavy chain' (B Cell and T Cell Receptors, and their Antigens, Slide 13)"
+    },
+    {
+        learningObjective: "LO 5.1 (B Cell & T Cell Receptors): Describe the overall structure of B cell receptors (antibody) and T cell receptors and define immunoglobulin class and subclass. (USMLE 1.B.9.)",
+        question: "A researcher is studying the structure of an IgA antibody molecule. She notes that in addition to IgG, this is one of only two immunoglobulin classes that has subclasses in humans. How many subclasses of IgA exist?",
+        options: { 
+            A: "One", 
+            B: "Two", 
+            C: "Three", 
+            D: "Four" 
+        },
+        correctAnswer: "B",
+        rationale: "In humans, only IgG and IgA have subclasses. IgG has four subclasses (IgG1, IgG2, IgG3, IgG4), and IgA has two subclasses (IgA1 and IgA2). These subclasses have minor structural differences and distinct functional properties.",
+        source: "'IgG and IgA have subclasses: IgG1, IgG2, IgG3, IgG4; IgA1, IgA2' (B Cell and T Cell Receptors, and their Antigens, Slide 4)"
+    },
+    {
+        learningObjective: "LO 5.1 (B Cell & T Cell Receptors): Describe the overall structure of B cell receptors (antibody) and T cell receptors and define immunoglobulin class and subclass. (USMLE 1.B.9.)",
+        question: "The antigen-binding site of an antibody molecule is formed by the interaction of the variable domains of the heavy and light chains. These domains contain highly variable loops that directly contact the antigen. What are these regions called?",
+        options: { 
+            A: "Constant domains", 
+            B: "Hinge regions", 
+            C: "Complementarity-determining regions (CDRs)", 
+            D: "Fc regions" 
+        },
+        correctAnswer: "C",
+        rationale: "The variable regions of both the heavy and light chains contain three specific loops of hypervariable amino acid sequence. These loops are called complementarity-determining regions (CDRs) or hypervariable regions. They form the three-dimensional surface that is complementary to the shape of the antigen's epitope, thus determining the antibody's binding specificity.",
+        source: "'The very tip of the variable chains is very highly variable; these areas are called “hypervariable regions” or “complementarity-determining regions” (CDRs)' (B Cell and T Cell Receptors, and their Antigens, Slide 14)"
+    },
+    {
+        learningObjective: "LO 5.2 (B Cell & T Cell Receptors): Describe the consequences of papain and pepsin digestion of antibody molecules. (USMLE 1.B.9.)",
+        question: "A researcher digests a sample of purified IgG with the enzyme papain. This enzyme cleaves the antibody molecule above the hinge region. Which of the following sets of fragments will be generated?",
+        options: { 
+            A: "One F(ab')2 fragment and multiple small peptides", 
+            B: "Two separate Fab fragments and one Fc fragment", 
+            C: "One intact IgG molecule", 
+            D: "Two heavy chains and two light chains" 
+        },
+        correctAnswer: "B",
+        rationale: "Papain cleaves the IgG molecule at the hinge region, separating the two antigen-binding arms from the constant tail portion. This results in the generation of three fragments: two identical Fab (fragment, antigen-binding) fragments, each consisting of a light chain and the VH and CH1 domains of a heavy chain, and one Fc (fragment, crystallizable) fragment, consisting of the remaining heavy chain constant domains.",
+        source: "'Papain: 2 Fab, 1 Fc' (B Cell and T Cell Receptors, and their Antigens, Slide 9)"
+    },
+    {
+        learningObjective: "LO 5.2 (B Cell & T Cell Receptors): Describe the consequences of papain and pepsin digestion of antibody molecules. (USMLE 1.B.9.)",
+        question: "An immunologist wants to create an antibody fragment that can still bind to and cross-link antigens but lacks the effector functions associated with the Fc region, such as complement activation. To achieve this, she should digest an IgG molecule with which enzyme?",
+        options: { 
+            A: "Trypsin", 
+            B: "Papain", 
+            C: "Pepsin", 
+            D: "Lysozyme" 
+        },
+        correctAnswer: "C",
+        rationale: "Pepsin cleaves the IgG molecule below the hinge region's disulfide bonds. This leaves the two antigen-binding Fab arms linked together, creating a single, bivalent fragment called F(ab')2. The Fc region is digested into multiple small peptides and loses its function. The F(ab')2 fragment can still precipitate antigens but cannot interact with Fc receptors or activate complement.",
+        source: "'Pepsin: 1 F(ab')2, lots of little pieces' (B Cell and T Cell Receptors, and their Antigens, Slide 9)"
+    },
+    {
+        learningObjective: "LO 5.2 (B Cell & T Cell Receptors): Describe the consequences of papain and pepsin digestion of antibody molecules. (USMLE 1.B.9.)",
+        question: "The fragment of an antibody that interacts with receptors on phagocytes and NK cells, and which also activates the classical complement pathway, is known by what name?",
+        options: { 
+            A: "Fab fragment", 
+            B: "F(ab')2 fragment", 
+            C: "Fc fragment", 
+            D: "Variable region" 
+        },
+        correctAnswer: "C",
+        rationale: "The Fc (fragment, crystallizable) region is the 'tail' of the antibody, composed of the constant domains of the heavy chains (CH2, CH3, and sometimes CH4). This region mediates the effector functions of the antibody by binding to Fc receptors on various immune cells and by binding to C1q to initiate the classical complement cascade.",
+        source: "'“Fab” and “Fc” nomenclature used extensively' (B Cell and T Cell Receptors, and their Antigens, Slide 9). The diagram on slide 5 shows 'Fc receptor/ complement-binding sites' located on the Fc region."
+    },
+    {
+        learningObjective: "LO 5.3 (B Cell & T Cell Receptors): Briefly describe how monoclonal antibodies are made and named... deduce how much mouse protein is present. (USMLE 1.B.9., 1.E.2.)",
+        question: "A patient with Crohn's disease is treated with infliximab. Based on the standard nomenclature for therapeutic monoclonal antibodies, what can be inferred about the origin of this drug?",
+        options: { 
+            A: "It is a fully human antibody.", 
+            B: "It is a fully mouse antibody.", 
+            C: "It is a humanized antibody containing less than 5% mouse protein.", 
+            D: "It is a chimeric antibody containing more than 5% mouse protein." 
+        },
+        correctAnswer: "D",
+        rationale: "The suffix '-ximab' in a monoclonal antibody's generic name denotes that it is a chimeric antibody. Chimeric antibodies are constructed by fusing the variable regions of a mouse antibody (which provide antigen specificity) with the constant regions of a human antibody. This means they contain a significant amount of mouse protein (>5%).",
+        source: "'-ximab = chimeric monoclonal antibody (contains >5% mouse protein)' (B Cell and T Cell Receptors, and their Antigens, Slide 19)"
+    },
+    {
+        learningObjective: "LO 5.3 (B Cell & T Cell Receptors): Briefly describe how monoclonal antibodies are made and named... deduce how much mouse protein is present. (USMLE 1.B.9., 1.E.2.)",
+        question: "A patient with severe asthma is prescribed omalizumab. This therapeutic antibody is designed to be minimally immunogenic in humans. The '-umab' suffix indicates that it is composed of what?",
+        options: { 
+            A: "100% mouse protein", 
+            B: "100% human protein", 
+            C: "Primarily human protein with mouse CDRs", 
+            D: "Primarily mouse protein with human constant regions" 
+        },
+        correctAnswer: "B",
+        rationale: "The suffix '-umab' signifies that the monoclonal antibody is fully human. These antibodies are typically produced using transgenic mice engineered to have human immunoglobulin genes or through phage display technologies. They contain no mouse protein and are therefore the least likely to provoke an immune response in the patient.",
+        source: "'-umab = 100% human monoclonal antibody (contains no mouse protein)' (B Cell and T Cell Receptors, and their Antigens, Slide 19)"
+    },
+    {
+        learningObjective: "LO 5.3 (B Cell & T Cell Receptors): Briefly describe how monoclonal antibodies are made and named... deduce how much mouse protein is present. (USMLE 1.B.9., 1.E.2.)",
+        question: "Trastuzumab is a monoclonal antibody used to treat HER2-positive breast cancer. Its generic name ends in '-zumab'. This suffix indicates that the antibody has been engineered in a specific way to reduce immunogenicity. What does '-zumab' signify?",
+        options: { 
+            A: "It is a fully mouse antibody.", 
+            B: "It is a chimeric antibody where the entire mouse variable region is fused to a human constant region.", 
+            C: "It is a humanized antibody where only the antigen-binding loops (CDRs) from a mouse antibody have been grafted onto a human antibody framework.", 
+            D: "It is a fully human antibody derived from transgenic mice." 
+        },
+        correctAnswer: "C",
+        rationale: "The suffix '-zumab' indicates a humanized monoclonal antibody. This is a more advanced engineering technique than creating a chimeric antibody. In a humanized antibody, only the small hypervariable regions (CDRs) that directly contact the antigen are of mouse origin. These are grafted onto the variable region framework of a human antibody, which is then attached to a human constant region. This results in an antibody with very low mouse protein content (<5%).",
+        source: "'-zumab = humanized monoclonal antibody (contains <5% mouse protein)' (B Cell and T Cell Receptors, and their Antigens, Slide 19)"
+    },
+    {
+        learningObjective: "LO 5.4 (B Cell & T Cell Receptors): Describe the overall structure of T cell receptors. (USMLE 1.B.8.)",
+        question: "The most common type of T cell receptor (TCR) is a heterodimer composed of two chains that are structurally analogous to the Fab portion of an antibody. What are these two chains called?",
+        options: { 
+            A: "Heavy and light chains", 
+            B: "Kappa and lambda chains", 
+            C: "Alpha (α) and beta (β) chains", 
+            D: "Gamma (γ) and delta (δ) chains" 
+        },
+        correctAnswer: "C",
+        rationale: "The vast majority of T cells express a TCR made of an alpha (α) chain and a beta (β) chain. The α chain is structurally similar to an antibody light chain, and the β chain is similar to an antibody heavy chain. A smaller population of T cells uses gamma (γ) and delta (δ) chains instead.",
+        source: "'Instead of being called heavy and light chains, they’re called alpha (α) and beta (β) chains. These T cells are called alpha-beta (αβ) T cells.' (B Cell and T Cell Receptors, and their Antigens, Slide 22)"
+    },
+    {
+        learningObjective: "LO 5.4 (B Cell & T Cell Receptors): Describe the overall structure of T cell receptors. (USMLE 1.B.8.)",
+        question: "Like a B cell receptor, a T cell receptor has distinct variable (V) and constant (C) regions. How many V and C regions does a single T cell receptor alpha (α) chain possess?",
+        options: { 
+            A: "One V and one C region", 
+            B: "One V and two C regions", 
+            C: "Two V and one C region", 
+            D: "Two V and two C regions" 
+        },
+        correctAnswer: "A",
+        rationale: "Both the alpha and beta chains of the TCR are simpler in structure than an antibody heavy chain. Each TCR chain consists of a single variable (V) domain at the N-terminus, which contributes to antigen binding, and a single constant (C) domain adjacent to the cell membrane.",
+        source: "'Each chain has a single V (variable) region (where antigen binding occurs), and a single C (constant) region' (B Cell and T Cell Receptors, and their Antigens, Slide 23)"
+    },
+    {
+        learningObjective: "LO 5.4 (B Cell & T Cell Receptors): Describe the overall structure of T cell receptors. (USMLE 1.B.8.)",
+        question: "The T cell receptor beta (β) chain is structurally analogous to which component of a B cell receptor?",
+        options: { 
+            A: "The light chain", 
+            B: "The heavy chain", 
+            C: "The J chain", 
+            D: "The Fc region" 
+        },
+        correctAnswer: "B",
+        rationale: "The T cell receptor beta (β) chain is analogous to the B cell receptor heavy chain because its variable region is assembled from V, D, and J gene segments. The T cell receptor alpha (α) chain is analogous to the light chain, as its variable region is assembled from only V and J segments.",
+        source: "'The T cell receptor beta (β) chain is analogous to the B cell receptor heavy chain' (B Cell and T Cell Receptors, and their Antigens, Slide 23) and 'B cell receptor heavy chain V region... T cell receptor β (beta) chain V region' [both are VDJ] (B Cell and T Cell Receptors, and their Antigens, Slide 34)"
+    },
+    {
+        learningObjective: "LO 5.5 (B Cell & T Cell Receptors): Briefly describe the process of V(D)J recombination... Briefly describe B cell receptor (immunoglobulin) class switching. Know the sequence of immunoglobulin heavy chains. (USMLE 1.B.8., 1.B.9., 2.A.2., 2.A.1.)",
+        question: "A developing B cell is undergoing gene rearrangement to create a functional heavy chain. The process involves randomly joining one segment from each of three different gene segment families to form the variable region. What is the correct sequence of joining for these segments?",
+        options: { 
+            A: "A V segment joins to a J segment, which then joins to a D segment.", 
+            B: "A D segment joins to a J segment, and the resulting DJ segment then joins to a V segment.", 
+            C: "A V segment joins to a D segment, and the resulting VD segment then joins to a J segment.", 
+            D: "V, D, and J segments are joined simultaneously in a single reaction." 
+        },
+        correctAnswer: "B",
+        rationale: "The assembly of the heavy chain variable region (and the TCR beta chain) is a two-step process. First, a diversity (D) gene segment is joined to a joining (J) gene segment to form a DJ unit. In the second step, a variable (V) gene segment is joined to the DJ unit to create the final VDJ exon that codes for the variable region.",
+        source: "'One of the J segments first joins one of the D segments, forming DJ. DJ then connects to one of the V segments, forming VDJ' (B Cell and T Cell Receptors, and their Antigens, Slide 27)"
+    },
+    {
+        learningObjective: "LO 5.5 (B Cell & T Cell Receptors): Briefly describe the process of V(D)J recombination... Briefly describe B cell receptor (immunoglobulin) class switching. Know the sequence of immunoglobulin heavy chains. (USMLE 1.B.8., 1.B.9., 2.A.2., 2.A.1.)",
+        question: "A mature, naïve B cell has successfully completed VDJ recombination and is expressing two immunoglobulin classes on its surface. Under the direction of cytokines from a T helper cell, it receives a signal to switch to producing IgG1. Which of the following molecular events occurs during this class switching process?",
+        options: { 
+            A: "The entire VDJ segment is replaced with a new one.", 
+            B: "The DNA encoding the Cμ and Cδ constant regions is looped out and permanently deleted.", 
+            C: "The mRNA transcript is alternatively spliced to include the Cγ1 exon instead of the Cμ exon.", 
+            D: "The J segment is replaced to alter antigen specificity." 
+        },
+        correctAnswer: "B",
+        rationale: "Class switch recombination is a DNA-level event that is distinct from VDJ recombination. It allows an activated B cell to change the constant region of its heavy chain, thereby changing the antibody class. The process involves looping out and permanently excising the DNA that encodes the constant regions for IgM and IgD (Cμ and Cδ), bringing the VDJ segment adjacent to a downstream constant region gene, such as Cγ1 for IgG1.",
+        source: "'DNA between VDJ and γ1 gets looped out and recycled – gone forever' (B Cell and T Cell Receptors, and their Antigens, Slide 41)"
+    },
+    {
+        learningObjective: "LO 5.5 (B Cell & T Cell Receptors): Briefly describe the process of V(D)J recombination... Briefly describe B cell receptor (immunoglobulin) class switching. Know the sequence of immunoglobulin heavy chains. (USMLE 1.B.8., 1.B.9., 2.A.2., 2.A.1.)",
+        question: "A mnemonic for the sequence of immunoglobulin heavy chain genes on the chromosome is 'My Dear Great Grandma And Great Grandpa Eat Apples'. Based on this, what is the correct order of the heavy chain constant region genes?",
+        options: { 
+            A: "M, D, G3, G1, A1, G2, G4, E, A2", 
+            B: "M, G, D, A, E", 
+            C: "G1, G2, G3, G4, A1, A2, M, D, E", 
+            D: "M, D, E, G, A" 
+        },
+        correctAnswer: "A",
+        rationale: "The mnemonic directly corresponds to the order of the heavy chain constant region genes on chromosome 14: Cμ (M), Cδ (D), Cγ3 (G3), Cγ1 (G1), Cα1 (A1), Cγ2 (G2), Cγ4 (G4), Cε (E), Cα2 (A2). This order is important because class switching is a deletional process, so a switch to one class removes all upstream constant region genes.",
+        source: "'My Dear Great Grandma And Great Grandpa Eat Apples: M D G3 G1 A1 G2 G4 E A2' (B Cell and T Cell Receptors, and their Antigens, Slide 42)"
+    },
+    {
+        learningObjective: "LO 5.6 (B Cell & T Cell Receptors): Describe the characteristics of antigens and how they bind to CDRs. (USMLE 1.B.9.)",
+        question: "A B cell receptor recognizes an epitope on an intact, folded viral surface protein. The epitope is formed by amino acids that are not contiguous in the primary protein sequence but are brought together by the protein's three-dimensional structure. This type of epitope is best described as:",
+        options: { 
+            A: "A linear epitope", 
+            B: "A conformational epitope", 
+            C: "A hapten", 
+            D: "A T-cell epitope" 
+        },
+        correctAnswer: "B",
+        rationale: "B cell receptors and antibodies can recognize both linear and conformational epitopes. A conformational (or discontinuous) epitope is one where the constituent amino acids are from different parts of the polypeptide chain but are brought into proximity in the folded, native structure of the protein.",
+        source: "'Conformational epitopes (e.g., several amino acids NOT next to each other in the protein sequence, but brought together by the protein’s 3D conformation' (B Cell and T Cell Receptors, and their Antigens, Slide 48)"
+    },
+    {
+        learningObjective: "LO 5.6 (B Cell & T Cell Receptors): Describe the characteristics of antigens and how they bind to CDRs. (USMLE 1.B.9.)",
+        question: "A patient develops acute rheumatic fever following an untreated case of streptococcal pharyngitis. The pathogenesis of the associated carditis involves antibodies generated against Streptococcus pyogenes that also bind to proteins in the patient's heart valves, causing inflammation and damage. This phenomenon is known as:",
+        options: { 
+            A: "Opsonization", 
+            B: "Affinity maturation", 
+            C: "Class switching", 
+            D: "Molecular mimicry or cross-reactivity" 
+        },
+        correctAnswer: "D",
+        rationale: "Molecular mimicry, also called cross-reactivity, occurs when an antibody generated in response to an epitope on a pathogen coincidentally recognizes a structurally similar epitope on a host ('self') protein. In rheumatic fever, anti-streptococcal antibodies cross-react with cardiac myosin and other heart antigens, leading to autoimmune-mediated heart damage.",
+        source: "'This is called crossreactivity or molecular mimicry' and 'If anti-Strep antibodies cross-react with human heart... producing a 'Type 2' hypersensitivity reaction that can destroy heart valves' (B Cell and T Cell Receptors, and their Antigens, Slides 52 & 53)"
+    },
+    {
+        learningObjective: "LO 5.6 (B Cell & T Cell Receptors): Describe the characteristics of antigens and how they bind to CDRs. (USMLE 1.B.9.)",
+        question: "The interaction between an antibody's binding site and a single epitope on an antigen is a noncovalent bond. The overall strength of this single interaction, which is the sum of all attractive and repulsive forces, is defined by which term?",
+        options: { 
+            A: "Avidity", 
+            B: "Affinity", 
+            C: "Valency", 
+            D: "Isotype" 
+        },
+        correctAnswer: "B",
+        rationale: "Affinity is the measure of the binding strength between a single antigen-binding site on an antibody and a single epitope on an antigen. It is determined by the sum of noncovalent interactions, including hydrogen bonds, electrostatic interactions, and van der Waals forces. Avidity, in contrast, refers to the overall strength of binding when multiple sites are engaged.",
+        source: "'Affinity: sum of all attractive and repulsive forces in the interaction of one Ag epitope and one Ab' (B Cell and T Cell Receptors, and their Antigens, Slide 50)"
+    },
+    {
+        learningObjective: "LO 6.1 (Antibody Function): List 5 ways that antibody functions in host defense and immunopathology and for each give a clinical example. (USMLE 1.B.9.)",
+        question: "A child is given an infusion of intravenous immunoglobulin (IVIG) containing antibodies against diphtheria toxin. If the child is subsequently exposed to the toxin, these pre-formed antibodies will bind to the toxin and prevent it from binding to its receptor on host cells, thereby preventing its pathologic effects. This antibody function is known as:",
+        options: { 
+            A: "Opsonization", 
+            B: "Neutralization", 
+            C: "Complement activation", 
+            D: "Antibody-dependent cellular cytotoxicity (ADCC)" 
+        },
+        correctAnswer: "B",
+        rationale: "Neutralization is the process by which antibodies bind to pathogens or toxins and directly block their ability to interact with host cells and cause damage. In this case, the antibodies neutralize the diphtheria toxin, preventing it from causing disease. This is a primary function of IgG and IgA.",
+        source: "'Neutralizing toxins' and 'High affinity antibody can bind toxin, preventing attachment to the target cell receptor' (Antibody Function, Slides 4 & 6)"
+    },
+    {
+        learningObjective: "LO 6.1 (Antibody Function): List 5 ways that antibody functions in host defense and immunopathology and for each give a clinical example. (USMLE 1.B.9.)",
+        question: "A patient with an encapsulated bacterial infection, such as Streptococcus pneumoniae, generates IgG antibodies against the bacterial capsule. These antibodies coat the surface of the bacteria. Phagocytic cells, like macrophages, have Fc receptors that can then bind to the antibody-coated bacteria, greatly enhancing their uptake and destruction. This process of 'tagging' a pathogen for phagocytosis is called:",
+        options: { 
+            A: "Neutralization", 
+            B: "Opsonization", 
+            C: "Lysis", 
+            D: "Sensitization" 
+        },
+        correctAnswer: "B",
+        rationale: "Opsonization is the process by which opsonins (such as IgG antibodies or complement component C3b) coat a pathogen's surface. This coating acts like a tag or 'steak sauce,' allowing phagocytes with corresponding receptors (like Fc receptors for IgG) to recognize and engulf the pathogen much more efficiently.",
+        source: "'Opsonization... Antibody “tags” them, identifying them to other cells of the immune system that can bring about destruction' (Antibody Function, Slide 7)"
+    },
+    {
+        learningObjective: "LO 6.1 (Antibody Function): List 5 ways that antibody functions in host defense and immunopathology and for each give a clinical example. (USMLE 1.B.9.)",
+        question: "A patient with B-cell lymphoma is treated with rituximab, a monoclonal antibody that targets the CD20 protein on the surface of the lymphoma cells. After the antibody binds, Natural Killer (NK) cells are recruited. The NK cells use their FcγRIII receptors to bind to the antibody-coated tumor cells and trigger their destruction via apoptosis. This mechanism of killing is known as:",
+        options: { 
+            A: "Complement-dependent cytotoxicity (CDC)", 
+            B: "Neutralization", 
+            C: "Phagocytosis", 
+            D: "Antibody-dependent cellular cytotoxicity (ADCC)" 
+        },
+        correctAnswer: "D",
+        rationale: "ADCC is a mechanism where an effector cell, typically an NK cell, recognizes and kills a target cell that has been coated with antibody. The NK cell uses its Fc receptors to bind the Fc portion of the antibodies, which triggers the release of cytotoxic granules and induces apoptosis in the target cell. This is a major mechanism of action for several anti-cancer monoclonal antibodies.",
+        source: "'ADCC (antibody-dependent cellular cytotoxicity)... Crosslinking of NK Fc receptors activates the NK cell, and the target cell dies by apoptosis' (Antibody Function, Slide 14)"
+    },
+    {
+        learningObjective: "LO 6.2 (Antibody Function): Know which immunoglobulin classes or subclasses are best at neutralization, opsonization, ADCC, sensitizing mast cells, activating complement, and placental transport. (USMLE 1.B.9., 1.B.10., 1.B.6., 1.C.7.)",
+        question: "A newborn infant is born with protective levels of antibodies against measles, despite the mother having had her last vaccination years ago. This passive immunity is conferred by the transplacental passage of a specific class of immunoglobulin from mother to fetus. Which antibody class is actively transported across the placenta?",
+        options: { 
+            A: "IgM", 
+            B: "IgA", 
+            C: "IgG", 
+            D: "IgE" 
+        },
+        correctAnswer: "C",
+        rationale: "IgG is the only immunoglobulin class that is actively transported across the placenta. This process is mediated by the neonatal Fc receptor (FcRn or Brambell receptor) on placental cells, and it provides the newborn with crucial passive immunity for the first several months of life.",
+        source: "'Placental transport: IgG' (Antibody Function, Slide 27) and 'Crosses the placenta to give a newborn infant protection against many types of infection' (Antibody Function, Slide 23)"
+    },
+    {
+        learningObjective: "LO 6.2 (Antibody Function): Know which immunoglobulin classes or subclasses are best at neutralization, opsonization, ADCC, sensitizing mast cells, activating complement, and placental transport. (USMLE 1.B.9., 1.B.10., 1.B.6., 1.C.7.)",
+        question: "A patient with seasonal allergies experiences sneezing, nasal congestion, and itchy eyes after exposure to pollen. These immediate hypersensitivity symptoms are caused by the cross-linking of allergen-specific antibodies on the surface of mast cells, leading to their degranulation. Which immunoglobulin class is responsible for sensitizing mast cells?",
+        options: { 
+            A: "IgG", 
+            B: "IgM", 
+            C: "IgA", 
+            D: "IgE" 
+        },
+        correctAnswer: "D",
+        rationale: "IgE is the antibody class primarily responsible for allergic reactions. It binds with high affinity to the FcεRI receptor on the surface of mast cells and basophils. When an allergen cross-links two adjacent IgE molecules, it triggers a signal that causes the cell to release histamine and other inflammatory mediators, producing the symptoms of allergy.",
+        source: "'Sensitizing mast cells, basophils: IgE' (Antibody Function, Slide 27) and 'FcεRI on mast cells is an IgE receptor. When crosslinked by antigen (allergen), the receptor causes mast cell activation (high-yield).' (Antibody Function, Slide 11)"
+    },
+    {
+        learningObjective: "LO 6.2 (Antibody Function): Know which immunoglobulin classes or subclasses are best at neutralization, opsonization, ADCC, sensitizing mast cells, activating complement, and placental transport. (USMLE 1.B.9., 1.B.10., 1.B.6., 1.C.7.)",
+        question: "During a primary immune response to a new pathogen, the first antibody class to be produced and secreted into the blood is a large pentameric molecule that is exceptionally effective at activating the classical complement pathway. Which immunoglobulin class is this?",
+        options: { 
+            A: "IgG", 
+            B: "IgA", 
+            C: "IgM", 
+            D: "IgE" 
+        },
+        correctAnswer: "C",
+        rationale: "IgM is always the first antibody class produced in a primary immune response. Its pentameric structure, with ten antigen-binding sites, gives it high avidity. This structure is also ideal for binding C1q, making IgM the most potent activator of the classical complement cascade.",
+        source: "'Complement activation: IgM, IgG (but not IgG4)' (Antibody Function, Slide 27) and 'IgM: First Ab class made in a primary immune response... Potent complement system activator' (Antibody Function, Slide 22)"
+    },
+    {
+        learningObjective: "LO 7.1 (T Cell Receptors & the MHC): Describe how antigen-presenting cells (APCs) and processed peptides interact with T cell receptors. (USMLE 1.B.3., 1.B.5., 1.B.8., 1.C.1.)",
+        question: "A T cell receptor does not recognize an intact, folded protein antigen. Instead, it recognizes a short, linear peptide derived from the protein. For the T cell receptor to bind, this peptide must be presented by what other molecule on the surface of an antigen-presenting cell (APC)?",
+        options: { 
+            A: "A B cell receptor", 
+            B: "A Toll-like receptor", 
+            C: "A major histocompatibility complex (MHC) molecule", 
+            D: "A CD28 molecule" 
+        },
+        correctAnswer: "C",
+        rationale: "Unlike B cells, T cells require antigens to be processed and presented. APCs digest proteins into small peptides and load them onto MHC molecules. The T cell receptor is unique in that it recognizes a composite ligand: the combination of the specific peptide and the MHC molecule presenting it. It recognizes the 'unity of peptide plus MHC'.",
+        source: "'For the T cell to be activated, the receptor has to recognize the unity of peptide plus MHC – not just one or the other' (T Cell Receptors and the MHC, Slide 4)"
+    },
+    {
+        learningObjective: "LO 7.1 (T Cell Receptors & the MHC): Describe how antigen-presenting cells (APCs) and processed peptides interact with T cell receptors. (USMLE 1.B.3., 1.B.5., 1.B.8., 1.C.1.)",
+        question: "A CD4+ helper T cell is crucial for orchestrating an adaptive immune response against extracellular bacteria. To become activated, its T cell receptor must recognize a peptide presented by an APC. Which class of MHC molecule is responsible for presenting these extracellularly-derived peptides to CD4+ T cells?",
+        options: { 
+            A: "MHC class I", 
+            B: "MHC class II", 
+            C: "MHC class III", 
+            D: "CD1" 
+        },
+        correctAnswer: "B",
+        rationale: "There is a strict division of labor. Antigens derived from extracellular sources (like bacteria that are phagocytosed) are processed in the exogenous pathway and loaded onto MHC class II molecules. These MHC class II-peptide complexes are then presented specifically to CD4+ helper T cells.",
+        source: "'-CD4+ T cell receptors receive peptides associated with MHC class II molecules' (T Cell Receptors and the MHC, Slide 6)"
+    },
+    {
+        learningObjective: "LO 7.1 (T Cell Receptors & the MHC): Describe how antigen-presenting cells (APCs) and processed peptides interact with T cell receptors. (USMLE 1.B.3., 1.B.5., 1.B.8., 1.C.1.)",
+        question: "A person is infected with a virus that replicates in the cytoplasm of their epithelial cells. To clear the infection, cytotoxic T lymphocytes (CTLs) must recognize and kill these infected cells. Which class of MHC molecule presents viral peptides from the cytoplasm to the CTLs?",
+        options: { 
+            A: "MHC class I", 
+            B: "MHC class II", 
+            C: "HLA-DM", 
+            D: "HLA-DR" 
+        },
+        correctAnswer: "A",
+        rationale: "Antigens derived from intracellular sources (like viral proteins synthesized within the cell) are processed in the endogenous pathway and loaded onto MHC class I molecules. These MHC class I-peptide complexes are then presented on the cell surface for recognition by CD8+ cytotoxic T cells, signaling that the cell is infected and should be destroyed.",
+        source: "'-CD8+ T cell receptors receive peptides associated with MHC class I molecules' (T Cell Receptors and the MHC, Slide 6)"
+    },
+    {
+        learningObjective: "LO 7.2 (T Cell Receptors & the MHC): In general, compare and contrast MHC Class I and Class II molecules. (USMLE 1.C.1., 1.C.3., 1.C.4., 1.C.5., 2.A.2.c.)",
+        question: "An immunologist is comparing the protein structures of MHC class I and MHC class II molecules. A key structural difference is that an MHC class I molecule consists of a single polymorphic alpha chain non-covalently associated with a non-polymorphic protein. What is this second, smaller protein?",
+        options: { 
+            A: "A beta chain", 
+            B: "A delta chain", 
+            C: "Beta-2-microglobulin (β2m)", 
+            D: "The invariant chain (Ii)" 
+        },
+        correctAnswer: "C",
+        rationale: "MHC class I molecules are heterodimers composed of a large, polymorphic, transmembrane α chain and a smaller, non-polymorphic, soluble protein called β2-microglobulin. Association with β2-microglobulin is essential for the proper folding and surface expression of the MHC class I molecule.",
+        source: "'MHC Class I molecules are made up of a single α chain with 3 domains and a noncovalently linked protein called β2-microglobulin' (T Cell Receptors and the MHC, Slide 10)"
+    },
+    {
+        learningObjective: "LO 7.2 (T Cell Receptors & the MHC): In general, compare and contrast MHC Class I and Class II molecules. (USMLE 1.C.1., 1.C.3., 1.C.4., 1.C.5., 2.A.2.c.)",
+        question: "While professional antigen-presenting cells express both MHC class I and class II molecules, the expression of MHC class I is much broader. On which of the following cell types would you expect to find MHC class I molecules expressed?",
+        options: { 
+            A: "Only on macrophages, dendritic cells, and B cells", 
+            B: "Only on mature erythrocytes", 
+            C: "On all nucleated cells", 
+            D: "Only on T lymphocytes" 
+        },
+        correctAnswer: "C",
+        rationale: "MHC class I molecules present peptides from intracellular proteins, allowing the immune system to monitor the health of all cells. Since any nucleated cell can potentially be infected by a virus, nearly all nucleated cells express MHC class I to signal CD8+ cytotoxic T cells if they become infected. Mature red blood cells, lacking a nucleus, are a notable exception.",
+        source: "'All nucleated cells express MHC Class I antigens, because they can be infected by intracellular organisms (like viruses)' (T Cell Receptors and the MHC, Slide 28)"
+    },
+    {
+        learningObjective: "LO 7.2 (T Cell Receptors & the MHC): In general, compare and contrast MHC Class I and Class II molecules. (USMLE 1.C.1., 1.C.3., 1.C.4., 1.C.5., 2.A.2.c.)",
+        question: "MHC class II molecules are composed of two transmembrane chains, an alpha (α) chain and a beta (β) chain, both of which are polymorphic. Which of the following is a classical MHC class II molecule?",
+        options: { 
+            A: "HLA-A", 
+            B: "HLA-B", 
+            C: "HLA-C", 
+            D: "HLA-DR" 
+        },
+        correctAnswer: "D",
+        rationale: "The classical, polymorphic MHC class I molecules are HLA-A, HLA-B, and HLA-C. The classical, polymorphic MHC class II molecules are HLA-DP, HLA-DQ, and HLA-DR. These are the primary molecules involved in presenting antigens to T cells.",
+        source: "'5 isotypes of Class II molecules, called HLA-DM, HLA-DO, HLA-DP, HLA-DQ, and HLA-DR –HLA-DP, HLA-DQ, and HLA- DR are the most polymorphic...' (T Cell Receptors and the MHC, Slide 11)"
+    },
+    {
+        learningObjective: "LO 7.3 (T Cell Receptors & the MHC): Know how to use HLA typing results in various clinical situations. (USMLE 1.C.5.)",
+        question: "A 30-year-old man with chronic inflammatory back pain and uveitis is found to be positive for a specific HLA allele that is strongly associated with ankylosing spondylitis and other spondyloarthropathies. Which HLA allele is most likely to be present?",
+        options: { 
+            A: "HLA-DR4", 
+            B: "HLA-DQ2", 
+            C: "HLA-B27", 
+            D: "HLA-A3" 
+        },
+        correctAnswer: "C",
+        rationale: "The association between HLA-B27 and ankylosing spondylitis is one of the strongest and most well-known HLA-disease associations in medicine. While not diagnostic on its own, the presence of HLA-B27 in a patient with suggestive symptoms significantly increases the likelihood of the diagnosis.",
+        source: "'Certain diseases have HLA associations –Classic example: association of (some forms of) HLA-B27 with certain types of arthritis' (T Cell Receptors and the MHC, Slide 16)"
+    },
+    {
+        learningObjective: "LO 7.3 (T Cell Receptors & the MHC): Know how to use HLA typing results in various clinical situations. (USMLE 1.C.5.)",
+        question: "A patient of Southeast Asian descent is being considered for treatment with the anti-epileptic drug carbamazepine. Before starting the medication, the physician orders HLA typing. This screening is done to identify an allele that is strongly associated with a risk of developing Stevens-Johnson syndrome (SJS) in response to the drug. Which allele is being tested for?",
+        options: { 
+            A: "HLA-B*5701", 
+            B: "HLA-B*1502", 
+            C: "HLA-DQ8", 
+            D: "HLA-A*3101" 
+        },
+        correctAnswer: "B",
+        rationale: "The FDA recommends screening patients of Asian ancestry for the HLA-B*1502 allele before initiating carbamazepine. This allele has a very strong association with an increased risk of developing the severe and life-threatening cutaneous adverse reactions SJS and toxic epidermal necrolysis (TEN). HLA-B*5701 is associated with abacavir hypersensitivity.",
+        source: "'Predicting adverse drug reactions' is listed as a clinical use for HLA typing. This is a classic, high-yield example of that principle. (T Cell Receptors and the MHC, Slide 16)"
+    },
+    {
+        learningObjective: "LO 7.3 (T Cell Receptors & the MHC): Know how to use HLA typing results in various clinical situations. (USMLE 1.C.5.)",
+        question: "A child requires a bone marrow transplant. The best potential donor would be a person who shares the same set of inherited HLA alleles. The set of HLA alleles inherited together on one chromosome 6 is referred to by what term?",
+        options: { 
+            A: "Isotype", 
+            B: "Allotype", 
+            C: "Idiotype", 
+            D: "Haplotype" 
+        },
+        correctAnswer: "D",
+        rationale: "The genes encoding the HLA molecules are located very close together on chromosome 6 and are therefore usually inherited as a single block or unit. This linked set of alleles on a single chromosome is called a haplotype. For a transplant, the ideal donor is an 'HLA-identical' sibling who has inherited the same two haplotypes from their parents.",
+        source: "'Molecularly speaking, they are very close together, so they tend to get inherited as a unit (group) called a haplotype' (T Cell Receptors and the MHC, Slide 12)"
+    },
+    {
+        learningObjective: "LO 7.4 (T Cell Receptors & the MHC): Describe how APCs process antigen. (USMLE 1.C.1.)",
+        question: "A virus infects a liver cell. The viral proteins are synthesized in the cytoplasm. These proteins are then degraded, and the resulting peptides are transported into the endoplasmic reticulum to be loaded onto MHC class I molecules. Which cellular machinery is responsible for degrading the viral proteins into peptides?",
+        options: { 
+            A: "Lysosomes", 
+            B: "Proteasomes", 
+            C: "Ribosomes", 
+            D: "Golgi apparatus" 
+        },
+        correctAnswer: "B",
+        rationale: "The endogenous pathway processes intracellular proteins for presentation on MHC class I. Proteins in the cytoplasm, such as viral proteins or mutated self-proteins, are targeted for degradation by the proteasome, a large protein complex that breaks them down into short peptides suitable for MHC class I loading.",
+        source: "'The endogenous pathway • Proteosomes produce peptide fragments of antigens of intracellular origin' (T Cell Receptors and the MHC, Slide 30)"
+    },
+    {
+        learningObjective: "LO 7.4 (T Cell Receptors & the MHC): Describe how APCs process antigen. (USMLE 1.C.1.)",
+        question: "After being generated in the cytoplasm by the proteasome, viral peptides must be transported into the endoplasmic reticulum (ER) to access newly synthesized MHC class I molecules. This transport across the ER membrane is mediated by which specialized protein?",
+        options: { 
+            A: "Calnexin", 
+            B: "Beta-2-microglobulin", 
+            C: "Transporter associated with antigen processing (TAP)", 
+            D: "Invariant chain (Ii)" 
+        },
+        correctAnswer: "C",
+        rationale: "The TAP complex (TAP1 and TAP2) is a heterodimeric transporter embedded in the membrane of the endoplasmic reticulum. Its specific function is to pump peptides generated by the proteasome in the cytosol into the lumen of the ER, where they can be loaded onto MHC class I molecules.",
+        source: "'The peptide fragments are delivered to endoplasmic reticulum by transporter associated with antigen processing (TAP)' (T Cell Receptors and the MHC, Slide 30)"
+    },
+    {
+        learningObjective: "LO 7.4 (T Cell Receptors & the MHC): Describe how APCs process antigen. (USMLE 1.C.1.)",
+        question: "A macrophage engulfs an extracellular bacterium into a phagosome. The phagosome then fuses with a lysosome, where the bacterium is degraded into peptides. These peptides are then loaded onto MHC class II molecules for presentation to helper T cells. Where does the loading of peptides onto MHC class II molecules primarily occur?",
+        options: { 
+            A: "In the cytoplasm", 
+            B: "In the endoplasmic reticulum", 
+            C: "In specialized vesicular compartments (phagolysosomes)", 
+            D: "On the cell surface" 
+        },
+        correctAnswer: "C",
+        rationale: "The exogenous pathway handles antigens taken up from outside the cell. These antigens are trafficked into the endocytic pathway, ending up in vesicles like phagolysosomes. It is within these acidified vesicles that the antigens are broken down and the resulting peptides are loaded onto MHC class II molecules.",
+        source: "'The exogenous pathway... Peptide fragments are produced in phagolysosomes, and are loaded on to MHC Class II molecules' (T Cell Receptors and the MHC, Slide 32)"
+    },
+    {
+        learningObjective: "LO 7.5 (T Cell Receptors & the MHC): Briefly describe the types of transplant rejection. (USMLE 2.C.2.)",
+        question: "A patient receives a kidney transplant from a donor with a different blood type (ABO incompatible). Within minutes of re-establishing blood flow to the transplanted kidney, the organ becomes cyanotic and fails. This immediate rejection is caused by pre-formed antibodies in the recipient that attack the donor endothelium. What is this type of rejection called?",
+        options: { 
+            A: "Acute rejection", 
+            B: "Chronic rejection", 
+            C: "Hyperacute rejection", 
+            D: "Graft-versus-host disease" 
+        },
+        correctAnswer: "C",
+        rationale: "Hyperacute rejection occurs within minutes to hours of transplantation. It is a Type II hypersensitivity reaction mediated by pre-existing recipient antibodies against donor antigens, most commonly ABO blood group antigens on the vascular endothelium. This leads to complement activation, endothelial damage, and massive thrombosis, causing irreversible graft failure.",
+        source: "'Hyperacute • Antibody mediated • Happens very suddenly, often within seconds or minutes • Massive thrombosis • Caused by ABO mismatch or the recipient has other types of preformed antibodies...' (T Cell Receptors and the MHC, Slide 40)"
+    },
+    {
+        learningObjective: "LO 7.5 (T Cell Receptors & the MHC): Briefly describe the types of transplant rejection. (USMLE 2.C.2.)",
+        question: "Two weeks after receiving a kidney transplant, a patient develops rising creatinine levels and a fever. A biopsy of the graft shows a dense infiltrate of lymphocytes and evidence of endothelial inflammation. This process is primarily being mediated by the recipient's T cells recognizing donor MHC molecules. This clinical scenario is characteristic of which type of rejection?",
+        options: { 
+            A: "Acute rejection", 
+            B: "Chronic rejection", 
+            C: "Hyperacute rejection", 
+            D: "Graft-versus-host disease" 
+        },
+        correctAnswer: "A",
+        rationale: "Acute rejection typically occurs days to weeks after transplantation and is most often a cell-mediated process. It is caused by the recipient's T cells recognizing foreign donor MHC molecules on the transplanted organ, leading to inflammation and damage to the graft. This type of rejection can often be treated with immunosuppressive drugs.",
+        source: "'Acute • Mediated by T-cells or antibody • Takes days/weeks/months to develop • Immunosuppressive drugs used to treat' (T Cell Receptors and the MHC, Slide 40)"
+    },
+    {
+        learningObjective: "LO 7.5 (T Cell Receptors & the MHC): Briefly describe the types of transplant rejection. (USMLE 2.C.2.)",
+        question: "A patient who received a bone marrow transplant for leukemia develops a severe skin rash, diarrhea, and jaundice about a month after the procedure. A skin biopsy reveals lymphocyte infiltration attacking the epidermis. This condition is caused by mature T cells from the donor tissue recognizing the recipient's tissues as foreign. What is this complication called?",
+        options: { 
+            A: "Acute rejection", 
+            B: "Chronic rejection", 
+            C: "Hyperacute rejection", 
+            D: "Graft-versus-host disease (GVHD)" 
+        },
+        correctAnswer: "D",
+        rationale: "Graft-versus-host disease (GVHD) is a unique complication of hematopoietic stem cell (bone marrow) transplantation. It occurs when immunocompetent T cells from the donor graft recognize the recipient's tissues as foreign and mount an attack. The recipient must be immunocompromised and unable to reject the graft for this to occur. Skin, gut, and liver are common targets.",
+        source: "'Graft-versus-host • T cells in the graft attack host cells in an immunocompromised patient' (T Cell Receptors and the MHC, Slide 41)"
+    },
+    {
+        learningObjective: "LO 8.1 (B Cell & T Cell Activation): Describe how B cells and T cells make their way through lymph nodes, interacting to produce an antibody response. (USMLE 1.B.8., 1.B.9., 1.B.10., 1.C.6.)",
+        question: "A B cell in a lymph node is activated after its surface receptor binds to a specific antigen. To receive the necessary help to become a plasma cell, it must first process the antigen and present peptides to a T helper cell. In which microenvironment of the lymph node does this crucial B cell-T cell interaction primarily occur?",
+        options: { 
+            A: "The medulla", 
+            B: "The primary follicle", 
+            C: "The T cell area", 
+            D: "The efferent lymphatic vessel" 
+        },
+        correctAnswer: "C",
+        rationale: "After a B cell internalizes an antigen in the follicle, it migrates to the border of the follicle and the T cell area (also known as the paracortex). Here, it presents processed peptides on MHC class II to antigen-specific CD4+ T helper cells that have also been activated by dendritic cells. This interaction provides the 'second signal' for B cell activation.",
+        source: "'When B cells meet T cells in the T cell area of the lymph node, there's a good chance that CD4+ T cell receptors will bind peptide-MHC II complexes on the B cell surface' (B Cell and T Cell Activation, Slide 6)"
+    },
+    {
+        learningObjective: "LO 8.1 (B Cell & T Cell Activation): Describe how B cells and T cells make their way through lymph nodes, interacting to produce an antibody response. (USMLE 1.B.8., 1.B.9., 1.B.10., 1.C.6.)",
+        question: "During the interaction between an antigen-presenting B cell and a T helper cell, a critical co-stimulatory signal is delivered. The T helper cell expresses CD40 ligand (CD40L) which binds to its receptor on the B cell. What is the name of this receptor on the B cell?",
+        options: { 
+            A: "B7", 
+            B: "CD28", 
+            C: "CD40", 
+            D: "MHC class II" 
+        },
+        correctAnswer: "C",
+        rationale: "The interaction between CD40L (on the activated T helper cell) and CD40 (on the B cell) is a crucial second signal for T-cell dependent B cell activation. This signal is essential for B cell proliferation, differentiation, and importantly, for class switching and affinity maturation.",
+        source: "'When MHCII-peptide binds a CD4+ Th cell receptor and CD40 ligand (CD40L) on the Th cell binds CD40 on the B cell, there’s another activation signal' (B Cell and T Cell Activation, Slide 7)"
+    },
+    {
+        learningObjective: "LO 8.1 (B Cell & T Cell Activation): Describe how B cells and T cells make their way through lymph nodes, interacting to produce an antibody response. (USMLE 1.B.8., 1.B.9., 1.B.10., 1.C.6.)",
+        question: "Following T cell-dependent activation, some B cells migrate into a primary follicle and form a specialized structure where they undergo intense proliferation, somatic hypermutation, and class switching. What is this structure called?",
+        options: { 
+            A: "Medullary cord", 
+            B: "High endothelial venule (HEV)", 
+            C: "Germinal center", 
+            D: "Afferent lymphatic" 
+        },
+        correctAnswer: "C",
+        rationale: "The germinal center is a dynamic microenvironment that forms within a secondary follicle of a lymph node during a T-dependent immune response. It is the site where activated B cells undergo affinity maturation (through somatic hypermutation and selection) and class switch recombination to produce high-affinity, class-switched antibodies and memory B cells.",
+        source: "'Others go to a primary follicle in the B cell area and produce a secondary follicle with a germinal center –This is where class switching and affinity maturation happen' (B Cell and T Cell Activation, Slide 8)"
+    },
+    {
+        learningObjective: "LO 8.2 (B Cell & T Cell Activation): Describe the consequences of TI B cell activation. (USMLE 1.B.9.)",
+        question: "A patient is infected with a bacterium that has a highly repetitive polysaccharide capsule. This polysaccharide can directly activate B cells by extensively cross-linking their B cell receptors, without the need for T cell help. The antibody response generated by this T-independent activation will consist almost exclusively of which isotype?",
+        options: { 
+            A: "IgG", 
+            B: "IgA", 
+            C: "IgE", 
+            D: "IgM" 
+        },
+        correctAnswer: "D",
+        rationale: "T-independent (TI) antigens, like polysaccharides, can activate B cells directly but this activation does not involve the CD40-CD40L interaction, which is essential for class switching. Therefore, the B cells differentiate into plasma cells that produce only the default antibody class, IgM. This response also generates little to no immunologic memory.",
+        source: "'The antibody response is IgM only, and class switching does not occur (CD40L-CD40 interaction is essential for class switching)' (B Cell and T Cell Activation, Slide 11)"
+    },
+    {
+        learningObjective: "LO 8.2 (B Cell & T Cell Activation): Describe the consequences of TI B cell activation. (USMLE 1.B.9.)",
+        question: "An infant is immunized with a vaccine containing only the purified polysaccharide capsule of Haemophilus influenzae type b. The infant fails to produce a protective, long-lasting antibody response. This is because polysaccharides are T-independent antigens, and the resulting immune response lacks which two key features of a T-dependent response?",
+        options: { 
+            A: "Antibody production and B cell activation", 
+            B: "Class switching and affinity maturation", 
+            C: "Neutrophil activation and complement fixation", 
+            D: "Antigen presentation and cytokine production" 
+        },
+        correctAnswer: "B",
+        rationale: "The response to T-independent antigens is characterized by the production of low-affinity IgM and a lack of immunologic memory. The signals required for class switching (to IgG or IgA) and affinity maturation (somatic hypermutation in the germinal center) are dependent on T cell help via the CD40/CD40L interaction, which does not occur in a TI response.",
+        source: "'(All you get is IgM that can’t undergo affinity maturation)' (B Cell and T Cell Activation, Slide 13)"
+    },
+    {
+        learningObjective: "LO 8.2 (B Cell & T Cell Activation): Describe the consequences of TI B cell activation. (USMLE 1.B.9.)",
+        question: "A patient with Hyper-IgM syndrome has a genetic defect in the CD40L gene on his T cells. He is highly susceptible to infections with encapsulated bacteria. His B cells will fail to undergo which of the following processes upon encountering a protein antigen?",
+        options: { 
+            A: "Antigen binding via the B cell receptor", 
+            B: "Antigen processing and presentation on MHC class II", 
+            C: "Class switching from IgM to IgG", 
+            D: "Initial IgM production" 
+        },
+        correctAnswer: "C",
+        rationale: "The interaction between CD40L on T cells and CD40 on B cells is absolutely essential for class switch recombination. Without this signal, B cells can still be activated (especially by T-independent antigens) to produce IgM, but they cannot switch to producing other isotypes like IgG and IgA, leading to the characteristic immunodeficiency.",
+        source: "'The antibody response is IgM only, and class switching does not occur (CD40L-CD40 interaction is essential for class switching)' (B Cell and T Cell Activation, Slide 11)"
+    },
+    {
+        learningObjective: "LO 8.3 (B Cell & T Cell Activation): Know how conjugate vaccines work. (USMLE 1.E.1.)",
+        question: "To improve the immunogenicity of a polysaccharide vaccine in infants, the bacterial polysaccharide is covalently linked to an immunogenic protein, such as tetanus toxoid. How does this 'conjugation' process convert a T-independent response into a T-dependent response?",
+        options: { 
+            A: "It allows the polysaccharide to be presented on MHC class I molecules.", 
+            B: "It provides peptide epitopes from the protein that can be presented on MHC class II to T helper cells.", 
+            C: "It causes the polysaccharide to directly activate T cells.", 
+            D: "It enhances the ability of IgM to fix complement." 
+        },
+        correctAnswer: "B",
+        rationale: "In a conjugate vaccine, a B cell recognizes and internalizes the polysaccharide component. It then processes the attached carrier protein into peptides. These peptides are loaded onto MHC class II molecules and presented to protein-specific T helper cells. The T helper cell then provides the necessary signals (like CD40L) to the B cell, driving a robust, T-dependent response (class switching, affinity maturation, memory) against the polysaccharide.",
+        source: "'Peptides from the tetanus toxoid get presented with MHC Class II antigens to Th cells. The antibody response will be to the polysaccharide' (B Cell and T Cell Activation, Slide 14)"
+    },
+    {
+        learningObjective: "LO 8.3 (B Cell & T Cell Activation): Know how conjugate vaccines work. (USMLE 1.E.1.)",
+        question: "A 2-month-old infant receives the pneumococcal conjugate vaccine (PCV13), which links pneumococcal polysaccharides to a carrier protein. Which of the following outcomes is a primary advantage of this conjugate vaccine over a purely polysaccharide vaccine (PPSV23) in this age group?",
+        options: { 
+            A: "It generates a potent IgM-only response.", 
+            B: "It induces a T-independent response.", 
+            C: "It generates long-lasting immunologic memory and high-affinity IgG.", 
+            D: "It provides immediate passive immunity." 
+        },
+        correctAnswer: "C",
+        rationale: "Infants have an immature immune system and respond poorly to T-independent polysaccharide antigens. Conjugate vaccines fool the immune system by linking the polysaccharide to a protein, thereby recruiting T cell help. This allows for the generation of a T-dependent response, which is characterized by the production of high-affinity IgG, class switching, and the development of long-term memory B cells, providing durable protection.",
+        source: "The entire principle of conjugate vaccines is to convert a weak, IgM-only, T-independent response into a robust, T-dependent response with memory. (B Cell and T Cell Activation, Slides 13-15)"
+    },
+    {
+        learningObjective: "LO 8.3 (B Cell & T Cell Activation): Know how conjugate vaccines work. (USMLE 1.E.1.)",
+        question: "In a conjugate vaccine, the B cell's surface immunoglobulin recognizes the polysaccharide, while the T helper cell's receptor recognizes a peptide from the carrier protein. What is the term for this phenomenon where the B and T cells recognize different epitopes on the same molecular complex?",
+        options: { 
+            A: "Cross-reactivity", 
+            B: "Anergy", 
+            C: "Linked recognition", 
+            D: "Original antigenic sin" 
+        },
+        correctAnswer: "C",
+        rationale: "Linked recognition is the principle that a B cell and a T helper cell must recognize epitopes on the same molecular complex (though not necessarily the same epitope) in order to cooperate. The B cell recognizes a native epitope (polysaccharide), and the T cell recognizes a processed peptide epitope from the linked carrier protein. This ensures that T cell help is directed only to B cells that have bound the specific antigen.",
+        source: "The diagrams on Slide 15 of 'B Cell and T Cell Activation' illustrate this process, where the B cell binds the polysaccharide but presents peptides from the toxoid to the T cell."
+    },
+    {
+        learningObjective: "LO 8.4 (B Cell & T Cell Activation): Describe the activation and function of cytotoxic T lymphocytes. (USMLE 1.B.8., 2.D.2.)",
+        question: "A naïve CD8+ T cell is circulating through a lymph node. For it to become activated into a cytotoxic T lymphocyte (CTL), it requires two signals from a professional antigen-presenting cell, such as a dendritic cell. What constitutes Signal 1 and Signal 2 for this activation?",
+        options: { 
+            A: "Signal 1: TCR binding to peptide-MHC II; Signal 2: CD40 binding to CD40L", 
+            B: "Signal 1: TCR binding to peptide-MHC I; Signal 2: CD28 binding to B7", 
+            C: "Signal 1: B7 binding to CD28; Signal 2: TCR binding to peptide-MHC I", 
+            D: "Signal 1: TCR binding to intact antigen; Signal 2: IL-2 signaling" 
+        },
+        correctAnswer: "B",
+        rationale: "The activation of a naïve T cell requires two distinct signals. Signal 1 is the specific signal, delivered when the T cell receptor (TCR), along with the CD8 co-receptor, recognizes its specific peptide presented on an MHC class I molecule. Signal 2 is the co-stimulatory signal, delivered when the CD28 molecule on the T cell binds to the B7 molecule (CD80/86) on the APC. Both are required for full activation; Signal 1 alone leads to anergy.",
+        source: "'A dendritic cell presents peptide+MHC I to a Tc cell receptor, stabilized by CD8... Another signal needed... B7 (on the surface of the APC) binds CD28 (on the T cell surface)' (B Cell and T Cell Activation, Slide 19)"
+    },
+    {
+        learningObjective: "LO 8.4 (B Cell & T Cell Activation): Describe the activation and function of cytotoxic T lymphocytes. (USMLE 1.B.8., 2.D.2.)",
+        question: "An activated cytotoxic T lymphocyte (CTL) identifies a virus-infected cell by recognizing a viral peptide presented on an MHC class I molecule. The CTL then kills the target cell primarily by releasing cytotoxic granules containing two key proteins. What are these two proteins?",
+        options: { 
+            A: "Histamine and leukotrienes", 
+            B: "Interleukin-2 and interferon-gamma", 
+            C: "Myeloperoxidase and NADPH oxidase", 
+            D: "Perforin and granzymes" 
+        },
+        correctAnswer: "D",
+        rationale: "The primary killing mechanism of CTLs is the directed release of lytic granules. Perforin is a protein that polymerizes to form pores in the target cell membrane. Granzymes are serine proteases that enter the target cell through these pores and activate the caspase cascade, inducing the target cell to undergo apoptosis.",
+        source: "'Killing mechanisms – Lytic granules (perforin, granzyme B) – Inducing apoptosis' (B Cell and T Cell Activation, Slide 22)"
+    },
+    {
+        learningObjective: "LO 8.4 (B Cell & T Cell Activation): Describe the activation and function of cytotoxic T lymphocytes. (USMLE 1.B.8., 2.D.2.)",
+        question: "A patient is prescribed tacrolimus to prevent rejection of a kidney transplant. This drug works by inhibiting calcineurin, a phosphatase that is activated by intracellular calcium signaling. By inhibiting calcineurin, tacrolimus directly prevents the activation of which transcription factor that is essential for T cell activation and IL-2 production?",
+        options: { 
+            A: "NF-κB", 
+            B: "AP-1", 
+            C: "STAT3", 
+            D: "NFAT" 
+        },
+        correctAnswer: "D",
+        rationale: "T cell receptor signaling leads to an increase in intracellular calcium, which activates the phosphatase calcineurin. Calcineurin then dephosphorylates the Nuclear Factor of Activated T cells (NFAT), allowing it to translocate to the nucleus and activate the transcription of genes crucial for T cell activation, most notably the gene for IL-2. Calcineurin inhibitors like tacrolimus block this step.",
+        source: "'Calcineurin activates a transcription factor, NFAT (nuclear factor of activated T cells)' and 'Clinical Correlation: Calcineurin is high yield because there are several calcineurin inhibitors (such as tacrolimus)...' (B Cell and T Cell Activation, Slide 20)"
+    },
+    {
+        learningObjective: "LO 8.5 (B Cell & T Cell Activation): List the main subpopulations of Th cells, and briefly describe their function. (USMLE 1.B.8.)",
+        question: "A patient has a parasitic worm infection. The immune response required to clear this infection involves eosinophil activation and B cells switching to produce IgE. This type of response is orchestrated by cytokines, such as IL-4 and IL-5, produced by which subpopulation of T helper cells?",
+        options: { 
+            A: "Th1 cells", 
+            B: "Th2 cells", 
+            C: "Th17 cells", 
+            D: "Treg cells" 
+        },
+        correctAnswer: "B",
+        rationale: "Th2 cells are the primary drivers of 'Type 2' or humoral immunity, which is crucial for defense against extracellular parasites like helminths. They produce a characteristic set of cytokines, including IL-4 (promotes IgE class switching), IL-5 (activates eosinophils), and IL-13, that coordinate this response.",
+        source: "'Th2 cells... The activated Th2 cell produces cytokines that interact with B cells (T2-high inflammation)' and the table on Slide 16 of 'T Lymphocytes' shows Th2 cells secreting IL-4, IL-5, IL-13 and activating eosinophils.",
+    },
+    {
+        learningObjective: "LO 8.5 (B Cell & T Cell Activation): List the main subpopulations of Th cells, and briefly describe their function. (USMLE 1.B.8.)",
+        question: "A patient is infected with an intracellular bacterium like Mycobacterium tuberculosis. The effective cell-mediated immune response to control this infection relies on activating macrophages and cytotoxic T lymphocytes. This response is driven by cytokines like IFN-γ and IL-12, which are characteristic of which T helper cell subset?",
+        options: { 
+            A: "Th1 cells", 
+            B: "Th2 cells", 
+            C: "Th17 cells", 
+            D: "Treg cells" 
+        },
+        correctAnswer: "A",
+        rationale: "Th1 cells are critical for cell-mediated immunity against intracellular pathogens. They are activated by IL-12 and produce IFN-γ. IFN-γ is the principal cytokine that activates macrophages, enhancing their ability to kill phagocytosed microbes, and also helps in the activation of CD8+ cytotoxic T cells.",
+        source: "'Th1 cells... The activated Th1 cell produces cytokines that activate cytotoxic (CD8+) T cells (T2-low inflammation)' and the table on Slide 16 of 'T Lymphocytes' shows Th1 cells secreting IFN-γ and activating macrophages."
+    },
+    {
+        learningObjective: "LO 8.5 (B Cell & T Cell Activation): List the main subpopulations of Th cells, and briefly describe their function. (USMLE 1.B.8.)",
+        question: "A patient with psoriasis has skin lesions characterized by a dense infiltration of neutrophils. This inflammatory process is known to be driven by the cytokine IL-17. Which T helper cell subpopulation is the primary source of IL-17 and is implicated in the pathogenesis of psoriasis and other autoimmune diseases?",
+        options: { 
+            A: "Th1 cells", 
+            B: "Th2 cells", 
+            C: "Th17 cells", 
+            D: "Treg cells" 
+        },
+        correctAnswer: "C",
+        rationale: "Th17 cells are defined by their production of IL-17 and IL-22. These cytokines are potent recruiters and activators of neutrophils and are crucial for defense against extracellular bacteria and fungi. Dysregulation of the Th17 response is a key factor in the pathology of many autoimmune diseases, including psoriasis, rheumatoid arthritis, and multiple sclerosis.",
+        source: "'Th17 cells • Produce IL-17 and IL-22 and work with neutrophils... Also important in autoimmune disease (e.g., ...rheumatoid arthritis, psoriasis...)' (B Cell and T Cell Activation, Slide 27)"
+    },
+    {
+        learningObjective: "LO 8.6 (B Cell & T Cell Activation): Describe the relationship between cytokine profiles produced by Th cells and ILCs. (USMLE 1.B.8., 1.B.7.)",
+        question: "During the early stages of a parasitic worm infection, long before a robust Th2 adaptive response has developed, the innate immune system provides an initial defense. A specific population of innate lymphoid cells (ILCs) is activated by epithelial alarmins and produces Th2-like cytokines such as IL-5 and IL-13. Which ILC group performs this function?",
+        options: { 
+            A: "ILC1", 
+            B: "ILC2", 
+            C: "ILC3", 
+            D: "NK cells" 
+        },
+        correctAnswer: "B",
+        rationale: "Innate lymphoid cells (ILCs) are innate counterparts to T helper cells. ILC2s are the innate equivalent of Th2 cells. They do not have antigen receptors but are stimulated by cytokines like TSLP, IL-25, and IL-33 to rapidly produce Th2 cytokines (IL-5, IL-13), which are important for early defense against helminths and in allergic inflammation.",
+        source: "'ILC2 cells produce Th2 cytokines (e.g. IL-5 and IL-13) when activated by cytokines from other cells' (B Cell and T Cell Activation, Slide 31)"
+    },
+    {
+        learningObjective: "LO 8.6 (B Cell & T Cell Activation): Describe the relationship between cytokine profiles produced by Th cells and ILCs. (USMLE 1.B.8., 1.B.7.)",
+        question: "A patient has a bacterial infection in the gut. The innate immune response involves the production of IL-17 and IL-22, which helps maintain the integrity of the epithelial barrier and recruit neutrophils. Which innate lymphoid cell (ILC) population mirrors the function of Th17 cells by producing these cytokines?",
+        options: { 
+            A: "ILC1", 
+            B: "ILC2", 
+            C: "ILC3", 
+            D: "Conventional dendritic cells" 
+        },
+        correctAnswer: "C",
+        rationale: "ILC3s are the innate lymphoid cell counterparts to Th17 cells. They are abundant at mucosal surfaces and are critical for early responses to extracellular bacteria and fungi. Upon stimulation, they produce IL-17 and IL-22, which strengthen the epithelial barrier and promote neutrophil-mediated inflammation.",
+        source: "'ILC3 cells produce Th17 cytokines (e.g., IL-17 and IL-22) when activated by cytokines from other cells' (B Cell and T Cell Activation, Slide 31)"
+    },
+    {
+        learningObjective: "LO 8.6 (B Cell & T Cell Activation): Describe the relationship between cytokine profiles produced by Th cells and ILCs. (USMLE 1.B.8., 1.B.7.)",
+        question: "The cytokine interferon-gamma (IFN-γ) is critical for activating macrophages to kill intracellular pathogens. The primary adaptive source of this cytokine is Th1 cells. Which group of innate lymphoid cells is considered the innate counterpart of Th1 cells and is also a potent producer of IFN-γ?",
+        options: { 
+            A: "ILC1", 
+            B: "ILC2", 
+            C: "ILC3", 
+            D: "Mast cells" 
+        },
+        correctAnswer: "A",
+        rationale: "ILC1s are the innate counterparts to Th1 cells. This group includes conventional ILC1s as well as NK cells. Upon activation by cytokines like IL-12 and IL-18, ILC1s produce large amounts of IFN-γ, which is crucial for the early innate response to intracellular pathogens by activating macrophages.",
+        source: "'ILC1 cells produce Th1 cytokines (e.g., interferon-gamma) when activated by cytokines from other cells' (B Cell and T Cell Activation, Slide 31)"
+    }
+];
+
+
+        const quizContainer = document.getElementById('quiz-container');
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const bodyElement = document.body;
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                bodyElement.classList.add('light-theme');
+                themeToggleButton.textContent = 'Switch to Dark Mode';
+            } else {
+                bodyElement.classList.remove('light-theme');
+                themeToggleButton.textContent = 'Switch to Light Mode';
+            }
+            localStorage.setItem('quizTheme', theme);
+        }
+
+        function loadQuiz() {
+            quizData.forEach((qData, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.classList.add('question-block');
+                questionBlock.id = `q${index}`;
+
+                const loText = document.createElement('div');
+                loText.classList.add('learning-objective');
+                loText.textContent = qData.learningObjective;
+                questionBlock.appendChild(loText);
+
+                const questionText = document.createElement('p');
+                questionText.classList.add('question-text');
+                questionText.innerHTML = `${index + 1}. ${qData.question}`;
+                questionBlock.appendChild(questionText);
+
+                const optionsDiv = document.createElement('div');
+                optionsDiv.classList.add('options');
+
+                for (const optionKey in qData.options) {
+                    const optionId = `q${index}_${optionKey}`;
+                    const label = document.createElement('label');
+                    label.htmlFor = optionId;
+                    const radioInput = document.createElement('input');
+                    radioInput.type = 'radio';
+                    radioInput.name = `q${index}`;
+                    radioInput.value = optionKey;
+                    radioInput.id = optionId;
+                    const labelText = document.createElement('span');
+                    labelText.textContent = ` ${optionKey}. ${qData.options[optionKey]}`;
+                    label.appendChild(radioInput);
+                    label.appendChild(labelText);
+                    optionsDiv.appendChild(label);
+                }
+                questionBlock.appendChild(optionsDiv);
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.classList.add('button-container');
+
+                const checkButton = document.createElement('button');
+                checkButton.textContent = 'Check Answer';
+                checkButton.classList.add('check-button');
+                checkButton.onclick = () => checkAnswer(index);
+                buttonContainer.appendChild(checkButton);
+                
+                questionBlock.appendChild(buttonContainer);
+
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.classList.add('feedback');
+                questionBlock.appendChild(feedbackDiv);
+
+                quizContainer.appendChild(questionBlock);
+            });
+        }
+
+        function checkAnswer(questionIndex) {
+            const questionBlockElement = document.getElementById(`q${questionIndex}`);
+            const selectedRadioButton = questionBlockElement.querySelector('input[type="radio"]:checked');
+
+            if (!selectedRadioButton) {
+                alert("Please select an answer first.");
+                return;
+            }
+
+            const selectedOptionKey = selectedRadioButton.value;
+            const qData = quizData[questionIndex];
+            const feedbackDiv = questionBlockElement.querySelector('.feedback');
+            const correct = selectedOptionKey === qData.correctAnswer;
+
+            let feedbackHTML = '';
+
+            if (correct) {
+                feedbackHTML = `<span class="feedback-status">Correct!</span>`;
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                 feedbackHTML = `<span class="feedback-status">Incorrect.</span> The correct answer is ${qData.correctAnswer}.`;
+                feedbackDiv.className = 'feedback incorrect';
+            }
+
+            feedbackHTML += `<div class="feedback-rationale"><strong>Rationale:</strong> ${qData.rationale}</div>`;
+            feedbackHTML += `<div class="feedback-source">${qData.source}</div>`;
+            feedbackDiv.innerHTML = feedbackHTML;
+        }
+
+        themeToggleButton.addEventListener('click', () => {
+            if (bodyElement.classList.contains('light-theme')) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('quizTheme') || 'dark';
+            applyTheme(savedTheme);
+            loadQuiz();
+        });
+
+    </script>
+
+</body>
+</html>
